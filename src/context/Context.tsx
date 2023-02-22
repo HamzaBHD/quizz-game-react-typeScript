@@ -1,23 +1,12 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
 
-type ContextProps = {
-  children: ReactNode
-}
-
-type ContextType = {
-  isTrue?: boolean
-  setIsTrue?: React.Dispatch<React.SetStateAction<boolean>>
-  quizz: QuizzType[]
-}
-
-interface AnswerType {
-  id: string
-  question: string
-  answers: string[]
-  correctAnswer: string
-}
-
-interface QuizzType extends AnswerType {}
+import {
+  ContextProps,
+  ContextType,
+  AnswerType,
+  QuizzType,
+} from '../types/Types'
+import { shuffle } from '../assets/shuffle'
 
 export const AppContext = createContext<ContextType>(
   null as unknown as ContextType
@@ -25,7 +14,6 @@ export const AppContext = createContext<ContextType>(
 
 export const ContextProvider = ({ children }: ContextProps) => {
   const [quizz, setQuizz] = useState<QuizzType[]>([])
-  const [isTrue, setIsTrue] = useState<boolean>(false)
 
   let dataHere = false
 
@@ -36,7 +24,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
       const answerObj: AnswerType = {
         id: data[i].id,
         question: data[i].question,
-        answers: [...data[i].incorrectAnswers, data[i].correctAnswer],
+        answers: shuffle([...data[i].incorrectAnswers, data[i].correctAnswer]),
         correctAnswer: data[i].correctAnswer,
       }
       quizzGameArr.push(answerObj)
@@ -59,6 +47,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
     fetch(url, options)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         setQuizz(setQuizzGame(data))
       })
   }, [])

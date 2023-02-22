@@ -1,73 +1,69 @@
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import Answers from '../components/Answers'
 import Question from '../components/Question'
+import Result from '../components/Result'
 import { AppContext } from '../context/Context'
 
-type UserAnswerType = {
-  questionNumber: number
-  question: string
-  answer: string
-  correct: boolean
-}
+import { UserAnswerType } from '../types/Types'
 
 const QuizzPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0)
   const [userAnswers, setUserAnswers] = useState<UserAnswerType[]>([])
   const [userAnswer, setUserAnswer] = useState<string>('')
-  const [isClicked, setIsClicked] = useState<boolean>(false)
+  const [isDone, setIsDone] = useState<boolean>(false)
   const { quizz } = useContext(AppContext)
+  console.log(quizz)
 
   let alreadyShown = false
 
   useEffect(() => {
-    if (alreadyShown) return
+    if (alreadyShown || quizz.length === 0) return
     alreadyShown = true
     setTimeout(() => {
-      if (currentQuestion >= 5) return
+      if (currentQuestion >= 5) {
+        return setIsDone(true)
+      }
       setCurrentQuestion((prevState) => prevState + 1)
+      checkUserAnswer()
     }, 5000)
-  }, [currentQuestion])
-
-  // const shuffle = (array: string[]): string[] => {
-  //   let newArray: string[] = array
-  //   for (let i = 0; i < array?.length; i++) {
-  //     let j = Math.floor(Math.random() * (i + 1))
-  //     let temp = newArray[i]
-  //     newArray[i] = newArray[j]
-  //     newArray[j] = temp
-  //   }
-
-  //   return newArray
-  // }
+  }, [currentQuestion, quizz])
 
   const getUserAnswer = (ans: string = ''): void => {
     setUserAnswer(ans)
     setUserAnswers((prevState) => {
-      if (ans === '') {
-        return [
-          ...prevState,
-          {
-            questionNumber: currentQuestion,
-            question: quizz[currentQuestion].question,
-            answer: ans,
-            correct: false,
-          },
-        ]
-      } else {
-        return [
-          ...prevState,
-          {
-            questionNumber: currentQuestion,
-            question: quizz[currentQuestion].question,
-            answer: ans,
-            correct: ans === quizz[currentQuestion].correctAnswer,
-          },
-        ]
+      const userAnswer: UserAnswerType = {
+        questionNumber: currentQuestion,
+        question: quizz[currentQuestion].question,
+        answer: ans,
+        correct: ans === quizz[currentQuestion].correctAnswer,
+        correctAnswer: quizz[currentQuestion].correctAnswer,
       }
+      for (let i in prevState) {
+        if (userAnswer.questionNumber === prevState[i].questionNumber) {
+          prevState.splice(prevState.indexOf(prevState[i]), 1, userAnswer)
+          return [...prevState]
+        }
+      }
+      return [...prevState, userAnswer]
     })
   }
 
-  console.log(userAnswers)
+  const checkUserAnswer = (): void => {
+    setUserAnswers((prevState) => {
+      if (prevState && !prevState[currentQuestion]) {
+        const missedAnswer: UserAnswerType = {
+          questionNumber: currentQuestion,
+          question: quizz[currentQuestion]?.question,
+          answer: '',
+          correct: false,
+          correctAnswer: quizz[currentQuestion]?.correctAnswer,
+        }
+        return [...prevState, missedAnswer]
+      } else {
+        return prevState
+      }
+    })
+  }
 
   const giveClass = (ans: string): string => {
     let name = ''
@@ -88,12 +84,17 @@ const QuizzPage = () => {
     />
   ))
 
-  // console.log(quizz)
   return (
     <>
-      {currentQuestion < 5 && <div className='timer'></div>}
-      <Question question={quizz[currentQuestion]?.question} />
-      <div className='answers-container'>{answers}</div>
+      {!isDone ? (
+        <>
+          {currentQuestion < 5 && <div className='timer'></div>}
+          <Question question={quizz[currentQuestion]?.question} />
+          <div className='answers-container'>{answers}</div>
+        </>
+      ) : (
+        <Result answers={userAnswers} />
+      )}
     </>
   )
 }

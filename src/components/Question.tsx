@@ -1,6 +1,4 @@
-type QuestionProps = {
-  question: string
-}
+import { QuestionProps } from '../types/Types'
 
 const Question = ({ question }: QuestionProps) => {
   return (
