@@ -14,7 +14,8 @@ export const AppContext = createContext<ContextType>(
 
 export const ContextProvider = ({ children }: ContextProps) => {
   const [quizz, setQuizz] = useState<QuizzType[]>([])
-
+  const [play, setPlay] = useState<boolean>(false)
+  console.log(quizz)
   let dataHere = false
 
   const setQuizzGame = (data: any): QuizzType[] => {
@@ -44,13 +45,19 @@ export const ContextProvider = ({ children }: ContextProps) => {
       },
     }
 
+    if (play === false) return
+
     fetch(url, options)
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
         setQuizz(setQuizzGame(data))
       })
-  }, [])
+  }, [play])
 
-  return <AppContext.Provider value={{ quizz }}>{children}</AppContext.Provider>
+  return (
+    <AppContext.Provider value={{ quizz, play, setPlay }}>
+      {children}
+    </AppContext.Provider>
+  )
 }

@@ -1,7 +1,13 @@
-import React from 'react'
+import { useContext } from 'react'
 import { ResultPropsType } from '../types/Types'
+import { AppContext } from '../context/Context'
 
-const Result = ({ answers }: ResultPropsType) => {
+const Result = ({
+  answers,
+  isNotDone,
+  setCurrentQuestion,
+}: ResultPropsType) => {
+  const { play, setPlay } = useContext(AppContext)
   const scoreCount = answers.filter((item) => item.correct === true).length
   const listOfResult = answers.map((item) => {
     const correctClass =
@@ -15,8 +21,22 @@ const Result = ({ answers }: ResultPropsType) => {
       </li>
     )
   })
+
+  console.log(play)
+
+  const generateMessage = (): string => {
+    if (scoreCount === 0) {
+      return 'Nice try, play again you can do better!'
+    } else if (scoreCount > 0 && scoreCount < 3) {
+      return `You got ${scoreCount} out of 5 You can do better!`
+    } else if (scoreCount >= 3 && scoreCount < 5) {
+      return `You got ${scoreCount} out of 5 That was Too close`
+    }
+    return 'Congratulations! 5 out of 5 answers You are a genius'
+  }
   return (
     <div className='user-result'>
+      <h2 className='user-message'>{generateMessage()}</h2>
       <ul>
         <li>
           <span className='user-answer title'>Your answer</span>
@@ -25,9 +45,19 @@ const Result = ({ answers }: ResultPropsType) => {
         {listOfResult}
       </ul>
       <hr />
-      <h3 className='user-score'>
-        Your Result: <span>{scoreCount}</span>
-      </h3>
+      <div className='score-container'>
+        <h3 className='user-score'>Your Result: {scoreCount}</h3>
+        <div
+          className='play-again'
+          onClick={() => {
+            setCurrentQuestion(0)
+            setPlay(true)
+            isNotDone(false)
+          }}
+        >
+          Play again
+        </div>
+      </div>
     </div>
   )
 }

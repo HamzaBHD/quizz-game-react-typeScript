@@ -7,8 +7,6 @@ type AnswersProps = {
 }
 
 const Answers = ({ answer, getUserAnswer, clickedClass }: AnswersProps) => {
-  // const [isClicked, setIsClicked] = useState<boolean>(false)
-
   return (
     <div
       className={`button ${clickedClass}`}

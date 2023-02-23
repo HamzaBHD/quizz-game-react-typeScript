@@ -5,8 +5,8 @@ export type ContextProps = {
 }
 
 export type ContextType = {
-  isTrue?: boolean
-  setIsTrue?: React.Dispatch<React.SetStateAction<boolean>>
+  play: boolean
+  setPlay: React.Dispatch<React.SetStateAction<boolean>>
   quizz: QuizzType[]
 }
 
@@ -33,4 +33,6 @@ export type QuestionProps = {
 
 export type ResultPropsType = {
   answers: UserAnswerType[]
+  isNotDone: React.Dispatch<React.SetStateAction<boolean>>
+  setCurrentQuestion: React.Dispatch<React.SetStateAction<number>>
 }
