@@ -1,9 +1,7 @@
-import React, { ReactElement, useContext } from 'react'
-import { AppContext } from '../context/Context'
+import React, { ReactElement } from 'react'
+import { StartGamePropsType } from '../types/Types'
 
-const StartGame = (): ReactElement => {
-  const { play, setPlay } = useContext(AppContext)
-
+const StartGame = ({ setPlay }: StartGamePropsType): ReactElement => {
   return (
     <div className='start-game'>
       <h1>5 x 5 GAME</h1>

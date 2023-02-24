@@ -6,8 +6,9 @@ const Result = ({
   answers,
   isNotDone,
   setCurrentQuestion,
+  setUserAnswers,
+  setPlay,
 }: ResultPropsType) => {
-  const { play, setPlay } = useContext(AppContext)
   const scoreCount = answers.filter((item) => item.correct === true).length
   const listOfResult = answers.map((item) => {
     const correctClass =
@@ -22,8 +23,6 @@ const Result = ({
     )
   })
 
-  console.log(play)
-
   const generateMessage = (): string => {
     if (scoreCount === 0) {
       return 'Nice try, play again you can do better!'
@@ -34,6 +33,7 @@ const Result = ({
     }
     return 'Congratulations! 5 out of 5 answers You are a genius'
   }
+
   return (
     <div className='user-result'>
       <h2 className='user-message'>{generateMessage()}</h2>
@@ -50,9 +50,10 @@ const Result = ({
         <div
           className='play-again'
           onClick={() => {
-            setCurrentQuestion(0)
             setPlay(true)
             isNotDone(false)
+            setCurrentQuestion(0)
+            setUserAnswers([])
           }}
         >
           Play again

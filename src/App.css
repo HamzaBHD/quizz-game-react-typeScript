@@ -47,7 +47,6 @@
   box-shadow: 0 0 30px #d60064;
   animation-name: timer;
   animation-duration: 5s;
-  animation-delay: 0.7s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -57,7 +56,6 @@
   min-width: 100px;
   height: 50px;
   text-align: center;
-  /* font-size: 15px; */
   font-weight: bold;
   border: 2px solid #d60064;
   color: white;

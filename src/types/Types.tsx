@@ -6,8 +6,6 @@ export type ContextProps = {
 
 export type ContextType = {
   play: boolean
-  setPlay: React.Dispatch<React.SetStateAction<boolean>>
-  quizz: QuizzType[]
 }
 
 export interface AnswerType {
@@ -18,6 +16,17 @@ export interface AnswerType {
 }
 
 export interface QuizzType extends AnswerType {}
+
+export type QuizzPagePropsType = {
+  quizz: QuizzType[]
+  play: boolean
+  setPlay: React.Dispatch<React.SetStateAction<boolean>>
+  setDataHere: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type StartGamePropsType = {
+  setPlay: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export type UserAnswerType = {
   questionNumber: number
@@ -35,4 +44,6 @@ export type ResultPropsType = {
   answers: UserAnswerType[]
   isNotDone: React.Dispatch<React.SetStateAction<boolean>>
   setCurrentQuestion: React.Dispatch<React.SetStateAction<number>>
+  setUserAnswers: React.Dispatch<React.SetStateAction<UserAnswerType[]>>
+  setPlay: React.Dispatch<React.SetStateAction<boolean>>
 }

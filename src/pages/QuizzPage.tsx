@@ -5,23 +5,29 @@ import Question from '../components/Question'
 import Result from '../components/Result'
 import { AppContext } from '../context/Context'
 
-import { UserAnswerType } from '../types/Types'
+import { UserAnswerType, QuizzPagePropsType } from '../types/Types'
 
-const QuizzPage = () => {
+const QuizzPage = ({
+  quizz,
+  play,
+  setPlay,
+  setDataHere,
+}: QuizzPagePropsType) => {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0)
   const [userAnswers, setUserAnswers] = useState<UserAnswerType[]>([])
   const [userAnswer, setUserAnswer] = useState<string>('')
   const [isDone, setIsDone] = useState<boolean>(false)
-  const { quizz, play, setPlay } = useContext(AppContext)
-
-  console.log(currentQuestion)
 
   let alreadyShown = false
 
   useEffect(() => {
     if (alreadyShown || quizz.length === 0) return
     alreadyShown = true
-    if (currentQuestion >= 5) setIsDone(true)
+    if (currentQuestion >= 5) {
+      setPlay(false)
+      setDataHere(true)
+      setIsDone(true)
+    }
     setTimeout(() => {
       if (currentQuestion >= 5) return
       setCurrentQuestion((prevState) => prevState + 1)
@@ -87,10 +93,12 @@ const QuizzPage = () => {
 
   return (
     <>
-      {!play && <StartGame />}
+      {!play && !isDone && <StartGame setPlay={setPlay} />}
       {!isDone && play && (
         <>
-          {currentQuestion < 5 && <div className='timer'></div>}
+          {quizz.length !== 0 && currentQuestion < 5 && (
+            <div className='timer'></div>
+          )}
           <Question question={quizz[currentQuestion]?.question} />
           <div className='answers-container'>{answers}</div>
         </>
@@ -100,6 +108,8 @@ const QuizzPage = () => {
           answers={userAnswers}
           isNotDone={setIsDone}
           setCurrentQuestion={setCurrentQuestion}
+          setUserAnswers={setUserAnswers}
+          setPlay={setPlay}
         />
       )}
     </>
