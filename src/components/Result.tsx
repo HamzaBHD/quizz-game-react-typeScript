@@ -7,6 +7,7 @@ const Result = ({
   setUserAnswers,
   setPlay,
   setQuizz,
+  theme,
 }: ResultPropsType) => {
   const scoreCount = answers.filter((item) => item.correct === true).length
   const listOfResult = answers.map((item) => {
@@ -47,7 +48,7 @@ const Result = ({
       <div className='score-container'>
         <h3 className='user-score'>Your Result: {scoreCount}</h3>
         <div
-          className='play-again'
+          className={`play-again ${theme}-border`}
           onClick={() => {
             setPlay(true)
             isNotDone(false)

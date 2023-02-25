@@ -8,16 +8,13 @@ import { shuffle } from '../assets/shuffle'
 
 import { UserAnswerType, QuizzPagePropsType } from '../types/Types'
 
-const QuizzPage = ({}: QuizzPagePropsType) => {
+const QuizzPage = ({ theme }: QuizzPagePropsType) => {
   const [quizz, setQuizz] = useState<QuizzType[]>([])
   const [play, setPlay] = useState<boolean>(false)
   const [currentQuestion, setCurrentQuestion] = useState<number>(0)
   const [userAnswers, setUserAnswers] = useState<UserAnswerType[]>([])
   const [userAnswer, setUserAnswer] = useState<string>('')
   const [isDone, setIsDone] = useState<boolean>(false)
-  console.log(play)
-
-  console.log(quizz)
 
   const setQuizzGame = (data: any): QuizzType[] => {
     let quizzGameArr: AnswerType[] = []
@@ -37,7 +34,6 @@ const QuizzPage = ({}: QuizzPagePropsType) => {
   useEffect(() => {
     if (!play) return
 
-    console.log('play')
     const url = 'https://the-trivia-api.com/api/questions?limit=5'
     const options = {
       method: 'GET',
@@ -124,11 +120,11 @@ const QuizzPage = ({}: QuizzPagePropsType) => {
 
   return (
     <>
-      {!play && !isDone && <StartGame setPlay={setPlay} />}
+      {!play && !isDone && <StartGame setPlay={setPlay} theme={theme} />}
       {!isDone && play && (
         <>
           {quizz.length !== 0 && currentQuestion < 5 && (
-            <div className='timer'></div>
+            <div className={`timer ${theme}-timer`}></div>
           )}
           <Question question={quizz[currentQuestion]?.question} />
           <div className='answers-container'>{answers}</div>
@@ -142,6 +138,7 @@ const QuizzPage = ({}: QuizzPagePropsType) => {
           setUserAnswers={setUserAnswers}
           setPlay={setPlay}
           setQuizz={setQuizz}
+          theme={theme}
         />
       )}
     </>

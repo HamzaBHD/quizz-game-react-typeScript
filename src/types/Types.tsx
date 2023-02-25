@@ -17,10 +17,13 @@ export interface AnswerType {
 
 export interface QuizzType extends AnswerType {}
 
-export type QuizzPagePropsType = {}
+export type QuizzPagePropsType = {
+  theme: string
+}
 
 export type StartGamePropsType = {
   setPlay: React.Dispatch<React.SetStateAction<boolean>>
+  theme: string
 }
 
 export type UserAnswerType = {
@@ -42,10 +45,16 @@ export type ResultPropsType = {
   setUserAnswers: React.Dispatch<React.SetStateAction<UserAnswerType[]>>
   setPlay: React.Dispatch<React.SetStateAction<boolean>>
   setQuizz: React.Dispatch<React.SetStateAction<QuizzType[]>>
+  theme: string
 }
 
 export type AnswersProps = {
   answer: string
   getUserAnswer: (ans: string) => void
   clickedClass: string
+}
+
+export type ThemeButtonProps = {
+  theme: string
+  setTheme: React.Dispatch<React.SetStateAction<string>>
 }

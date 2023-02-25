@@ -17,6 +17,17 @@
   align-items: center;
   text-align: center;
   letter-spacing: 0.1em;
+  position: relative;
+}
+
+.dark {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+}
+
+.light {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #ffffff;
 }
 
 .answers-container {
@@ -32,10 +43,17 @@
   width: 90%;
   max-width: 600px;
   height: 7px;
-  background-color: white;
   margin-bottom: 1em;
   position: relative;
   text-align: left;
+}
+
+.dark-timer {
+  background-color: #ffffff;
+}
+
+.light-timer {
+  background-color: #7f7f7f;
 }
 
 .timer::after {
@@ -44,7 +62,7 @@
   width: 0%;
   height: 7px;
   background-color: #d60064;
-  box-shadow: 0 0 30px #d60064;
+  box-shadow: 0 0 15px #d60064;
   animation-name: timer;
   animation-duration: 5s;
   animation-timing-function: linear;
@@ -58,7 +76,6 @@
   text-align: center;
   font-weight: bold;
   border: 2px solid #d60064;
-  color: white;
   background: transparent;
   padding: 0 1em;
   display: flex;
@@ -72,7 +89,7 @@
 .clicked-answer,
 .button:hover {
   background: #d60064;
-  box-shadow: 0 0 30px #d60064;
+  box-shadow: 0 0 15px #d60064;
 }
 
 .question h2 {
@@ -123,8 +140,7 @@
   border: none;
   margin-top: 1.5em;
   font-size: 1.5em;
-  /* text-decoration: underline; */
-  text-shadow: 0 0 3px #ffffff;
+  text-shadow: 0 0 1px #ffffff;
 }
 
 .user-result ul li {
@@ -143,17 +159,17 @@ li:first-child span.correct-answer {
 
 li span.correct-answer {
   border: 2px solid #d60064;
-  box-shadow: 0 0 5px #d60064;
+  box-shadow: 0 0 2px #d60064;
 }
 
 .correct {
   border: 2px solid #1db954;
-  box-shadow: 0 0 5px #1db954;
+  box-shadow: 0 0 2px #1db954;
 }
 
 .error {
   border: 2px solid #e00034;
-  box-shadow: 0 0 5px #e00034;
+  box-shadow: 0 0 2px #e00034;
 }
 .user-result ul li span.user-answer,
 .user-result ul li span.correct-answer {
@@ -171,13 +187,13 @@ li span.correct-answer {
 hr {
   border: 2px solid #d60064;
   margin: 2em 0;
-  box-shadow: 0 0 30px #d60064;
+  box-shadow: 0 0 2px #d60064;
 }
 
 .user-score {
   font-size: 2em;
   text-decoration: underline;
-  text-shadow: 0 0 5px #ffffff;
+  text-shadow: 0 0 1px #ffffff;
 }
 
 .score-container {
@@ -188,12 +204,53 @@ hr {
 
 .play-again {
   font-size: 1.5em;
-  border: 2px solid #ffffff;
   padding: 0em 1em;
-  box-shadow: 0 0 3px #ffffff;
-  text-shadow: 0 0 5px #ffffff;
+  box-shadow: 0 0 2px #ffffff;
+  text-shadow: 0 0 1px #ffffff;
   cursor: pointer;
   user-select: none;
+}
+.theme-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1em;
+  background: #d60064;
+  padding: 0.7em 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid #d60064;
+}
+
+.theme-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  transition: 1s;
+}
+
+.dark-button::before {
+  background-color: #242424;
+}
+
+.light-button::before {
+  background-color: aliceblue;
+  left: unset;
+  right: 0;
+}
+
+.dark-border {
+  border: 2px solid #ffffff;
+}
+
+.light-border {
+  border: 2px solid #242424;
+  box-shadow: 0 0 2px #242424;
 }
 
 @keyframes timer {
