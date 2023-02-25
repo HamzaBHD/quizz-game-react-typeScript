@@ -1,6 +1,4 @@
-import { useContext } from 'react'
 import { ResultPropsType } from '../types/Types'
-import { AppContext } from '../context/Context'
 
 const Result = ({
   answers,
@@ -8,6 +6,7 @@ const Result = ({
   setCurrentQuestion,
   setUserAnswers,
   setPlay,
+  setQuizz,
 }: ResultPropsType) => {
   const scoreCount = answers.filter((item) => item.correct === true).length
   const listOfResult = answers.map((item) => {
@@ -54,6 +53,7 @@ const Result = ({
             isNotDone(false)
             setCurrentQuestion(0)
             setUserAnswers([])
+            setQuizz([])
           }}
         >
           Play again

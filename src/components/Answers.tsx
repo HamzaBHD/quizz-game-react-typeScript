@@ -1,10 +1,4 @@
-import React, { useState } from 'react'
-
-type AnswersProps = {
-  answer: string
-  getUserAnswer: (ans: string) => void
-  clickedClass: string
-}
+import { AnswersProps } from '../types/Types'
 
 const Answers = ({ answer, getUserAnswer, clickedClass }: AnswersProps) => {
   return (
